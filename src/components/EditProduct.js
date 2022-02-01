@@ -19,13 +19,13 @@ const EditProduct = () => {
         setPrice(data.price);
     };
 
-    const saveProduct = async(e) => {
+    const updateProduct = async(e) => {
         e.preventDefault();
         
         const product = { title, price };
 
-        await fetch("http://localhost:8080/products", {
-            method: "POST",
+        await fetch(`http://localhost:8080/products/${id}`, {
+            method: "PUT",
             body: JSON.stringify(product),
             headers: {
                 'Content-Type': 'application/json'
@@ -35,38 +35,37 @@ const EditProduct = () => {
         navigate("/");
     }
 
-
     return (
-    <div className="mt-3">
-        <h1>Edit Product</h1>
+        <div className="mt-3">
+            <h1>Edit Product</h1>
 
-        <div>
-            <form onSubmit={ saveProduct }>
-                <div className="field">
-                    <label className="label">Title</label>
-                    <div className="control">
-                        <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Product Title" />
+            <div>
+                <form onSubmit={ updateProduct }>
+                    <div className="field">
+                        <label className="label">Title</label>
+                        <div className="control">
+                            <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Product Title" />
+                        </div>
                     </div>
-                </div>
 
-                <div className="field">
-                    <label className="label">Price</label>
-                    <div className="control">
-                        <input className="input" value={price} onChange={(e) => setPrice(e.target.value)} type="number" placeholder="Product Price" />
+                    <div className="field">
+                        <label className="label">Price</label>
+                        <div className="control">
+                            <input className="input" value={price} onChange={(e) => setPrice(e.target.value)} type="number" placeholder="Product Price" />
+                        </div>
                     </div>
-                </div>
 
-                <div className="field">
-                    <div className="control">
-                        <button className="button is-primary">Update</button>
+                    <div className="field">
+                        <div className="control">
+                            <button className="button is-primary">Update</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            {/* <p>{title} - {price}</p> */}
+
         </div>
-
-        {/* <p>{title} - {price}</p> */}
-
-    </div>
     );
 };
 

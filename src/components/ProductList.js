@@ -6,17 +6,25 @@ const ProductList = () => {
 
     useEffect(() => {
         fetchData();
-    });
+    }, []);
 
     const fetchData = async() => {
+        // npx json-server --watch db.json
         const response = await fetch("http://localhost:8080/products");
         const data = await response.json();
         setProducts(data);
     }
 
+    const deleteProduct = async(id) => {
+        await fetch(`http://localhost:8080/products/${id}`, {
+            method: "DELETE"
+        });
+        fetchData();
+    }
+
     return (
     <div className="mt-3">
-        <table className="table is-stripped">
+        <table className="table is-striped is-fullwidth">
             <thead>
                 <tr>
                     <th>No</th>
@@ -41,9 +49,9 @@ const ProductList = () => {
                             <Link to={`/edit/${product.id}`} className="button is-primary is-small">
                                 Edit
                             </Link>
-                            <Link to={'/'} className="button is-danger is-small">
+                            <button onClick={() => deleteProduct(product.id) } className="button is-danger is-small ml-2">
                                 Delete
-                            </Link>
+                            </button>
                         </td>
                     </tr>
                 ))}
